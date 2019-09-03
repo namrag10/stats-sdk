@@ -95,14 +95,19 @@ class ClientCore {
 					break;
 				}
 
-				$Cmds = get_class_methods("RGarman\\Stats\\Client\\ClientCore");
 				
-				$temp1 = get_class_methods("RGarman\\Stats\\Routes\\Route");
-				$temp2 = get_class_methods("RGarman\\Stats\\Routes\\Cache");
-				foreach($temp1 as $value){
+
+				#GET COMMANDS
+				$Cmds = get_class_methods("RGarman\\Stats\\Client\\ClientCore");
+
+
+				$RouteCmds = get_class_methods("RGarman\\Stats\\Routes\\Route");
+				foreach($RouteCmds as $value){
 					array_push($Cmds, $value);
 				}
-				foreach($temp2 as $value){
+
+				$CacheCmds = get_class_methods("RGarman\\Stats\\Routes\\Cache");
+				foreach($CacheCmds as $value){
 					array_push($Cmds, $value);
 				}
 
@@ -116,7 +121,12 @@ class ClientCore {
 					return isset($ele);
 				});
 				sort($Commands);
+				#END GET COMMANDS
 
+				var_dump($Commands);
+				die();
+
+				#DO YOU MEAN?
 				if(array_search(strtolower($Command), $Commands)){
 					$this->Help($Command);
 				}else{
@@ -145,6 +155,7 @@ class ClientCore {
 						echo "No Command Found :(";
 					}
 				}
+				#END DO YOU MEAN
 			}
 			echo "\n\n";
 			readline("Back");
