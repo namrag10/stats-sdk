@@ -81,7 +81,7 @@ class ClientCore {
 		sort($Commands);
 		#END GET COMMANDS
 
-#--------------------------------------
+		#--------------------------------------
 
 		while(true){
 			$Chosen = "";
