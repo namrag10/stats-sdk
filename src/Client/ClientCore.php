@@ -3,6 +3,7 @@
 namespace RGarman\Stats\Client;
 
 use Exception;
+use RGarman\Stats\Routes\Route;
 use RGarman\Stats\Container\container;
 use RGarman\Stats\Routes\RouteInterface;
 
@@ -19,9 +20,8 @@ class ClientCore {
 
 
 	public function AddResource($Name, RouteInterface $Route){
-
 		$this->Container->set(strtolower($Name), $Route);
-		return true;
+		return $this;
 	}
 	
 
@@ -50,6 +50,20 @@ class ClientCore {
 	}
 
 
+	public function addBaseResources($Config){
+		$this->AddResource("Entities", new Route("api/RU/configuration/entities", [], $Config));
+		$this->AddResource("SeasonList", new Route("api/RU/competitions/seasons/", ["CompetitionID", "SeasonID"], $Config));
+		$this->AddResource("FixtureList", new Route("api/RU/competitions/fixtures/", ["CompetitionID", "SeasonID", "TeamID"], $Config));
+		$this->AddResource("TeamStats", new Route("api/RU/teamStats/", ["CompetitionID", "SeasonID", "TeamID"], $Config));
+		$this->AddResource("TeamSnapShot", new Route("api/RU/teamStatsSnapshot/", ["CompetitionID", "SeasonID", "TeamID"], $Config));
+		$this->AddResource("PlayerStats", new Route("api/RU/playerStats/", ["CompetitionID", "SeasonID", "PlayerID"], $Config));
+		$this->AddResource("PlayerSnapShot", new Route("api/RU/playerStatsSnapshot/", ["CompetitionID", "SeasonID", "PlayerID"], $Config));
+		$this->AddResource("PlayerBio", new Route("api/RU/playerProfiles/", ["CompetitionID", "SeasonID", "PlayerID"], $Config));
+		$this->AddResource("SquadList", new Route("api/RU/clubSquads/", ["CompetitionID", "SeasonID", "TeamID"], $Config));
+		$this->AddResource("MatchData", new Route("api/RU/matchStats/", ["MatchID"], $Config));
+		$this->AddResource("EventFlow", new Route("api/RU/matchstats/eventsFlow/", ["MatchID"], $Config));
+		$this->AddResource("FormGuide", new Route("api/RU/matchStats/FormGuide/", ["MatchID"], $Config));
+	}
 
 	
 	public function Help(){
@@ -172,6 +186,9 @@ class ClientCore {
 						break;
 					case "setmethod":
 						$Msg = "Sets the method to use, accepts all 7 HTTP protocols as string. SYNTAX:\n ->setMethod({HTTP Protocol (String)})";	
+						break;
+					case "addbaseresources":
+						$Msg = "Adds 12 base resources that I think are relivant to most projects, view them using the getResources() method. SYNTAX:\n ->addBaseResources({Config} (Array))";
 						break;
 					default:
 						$Msg = "No Information about {$Chosen}";
