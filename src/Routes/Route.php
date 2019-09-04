@@ -46,7 +46,7 @@ class Route implements RouteInterface {
 			$Add = (is_array($Parameters)) ? join("-", $Parameters) : str_replace("/", "-", $Parameters);
 		}
 
-		$Add = substr(str_replace("/", "-", $this->URI), 0, -1) . "-" . $Add;
+		$Add = str_replace("/", "-", $this->URI) . "-" . $Add;
 
 		file_put_contents($this->CachePath . "/" . $Add . ".json", json_encode($Response));
 		return $Response;
@@ -94,10 +94,11 @@ class Route implements RouteInterface {
 
 		$Ref = ($this->RequiredParameters == 0) ? 0 : $this->RequiredParameters -1;
 		
+
 		try{
 			if(substr_count($Add, "/") === $Ref){
 				$response = $this->GuzzleClient->request($this->Method, $this->BaseURI . $this->URI . $Add, $this->Config);
-				return json_decode($response->getBody());
+				return json_decode($response->getBody(), true);
 			}else{
 				throw new Exception ($this->ErrorHandle(substr_count($Add, "/") + 1));
 			}
