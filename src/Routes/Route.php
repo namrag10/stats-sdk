@@ -24,7 +24,6 @@ class Route implements RouteInterface {
 	}
 	
 
-
 	public function setBase($Base){
 		$this->BaseURI = $Base;
 		return $this;
@@ -81,8 +80,6 @@ class Route implements RouteInterface {
 	public function ErrorHandle($Provided){
 		return "\n\n** This endpoint requires {$this->RequiredParameters} parameters:\n" . join($this->Parameters, ", ") . "\n{$Provided} Provided **\n\n";
 	}
-
-
 
 
 	public function get($Parameters = null){
